@@ -5,7 +5,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initApplicationForm();
-  initFileUpload();
 });
 
 /* ----- Contact Form ----- */
@@ -69,13 +68,6 @@ function initApplicationForm() {
     submitBtn.disabled = true;
 
     const formData = new FormData(form);
-
-    // Remove empty file object if the user submits without a resume, which causes a 400 error
-    for (let [key, value] of Array.from(formData.entries())) {
-      if (value instanceof File && value.name === "" && value.size === 0) {
-        formData.delete(key);
-      }
-    }
 
     // IMPORTANT: Replace this with your actual Web3Forms access key
     formData.append("access_key", "72c593bd-0f07-4fec-a013-a3f770c185a7");
@@ -190,21 +182,5 @@ function clearErrors(form) {
   });
   form.querySelectorAll('.form-error').forEach(el => {
     el.style.display = 'none';
-  });
-}
-
-/* ----- File Upload Styling ----- */
-function initFileUpload() {
-  const fileInputs = document.querySelectorAll('.file-upload input[type="file"]');
-
-  fileInputs.forEach(input => {
-    input.addEventListener('change', () => {
-      const fileNameEl = input.closest('.file-upload').querySelector('.file-name');
-      if (fileNameEl && input.files.length > 0) {
-        fileNameEl.textContent = input.files[0].name;
-      } else if (fileNameEl) {
-        fileNameEl.textContent = '';
-      }
-    });
   });
 }
