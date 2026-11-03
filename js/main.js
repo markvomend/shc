@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initStickyHeader();
   initMobileNav();
   initScrollAnimations();
-  initTestimonials();
   initActiveNav();
   initBackToTop();
   initObfuscator();
@@ -101,89 +100,6 @@ function initScrollAnimations() {
   document.querySelectorAll('.animate-on-scroll').forEach(el => {
     observer.observe(el);
   });
-}
-
-/* ----- Testimonial Rotation ----- */
-function initTestimonials() {
-  const slider = document.getElementById('testimonial-slider');
-  if (!slider) return;
-
-  const testimonials = [
-    {
-      quote: 'The Shepherd Home Care has been a blessing for our family. They truly treat my mother like their own. The caregivers are kind, patient, and always go above and beyond. We finally have peace of mind.',
-      author: 'Sarah M.',
-      role: 'Daughter of Client',
-      initial: 'S'
-    },
-    {
-      quote: 'After struggling to find reliable care for my father, we found The Shepherd. From day one, they listened to our needs and matched us with the perfect caregiver. It feels like family helping family.',
-      author: 'James T.',
-      role: 'Son of Client',
-      initial: 'J'
-    },
-    {
-      quote: 'What sets The Shepherd apart is that they truly know my grandmother by name and by heart. The personal touch and attention to detail makes all the difference. We are so grateful.',
-      author: 'Maria L.',
-      role: 'Granddaughter of Client',
-      initial: 'M'
-    }
-  ];
-
-  const quoteEl = slider.querySelector('.testimonial__quote');
-  const authorEl = slider.querySelector('.testimonial__author');
-  const roleEl = slider.querySelector('.testimonial__role');
-  const avatarEl = slider.querySelector('.testimonial__avatar');
-  const dots = slider.querySelectorAll('.testimonial-dot');
-
-  if (!quoteEl || !authorEl || !roleEl) return;
-
-  let current = 0;
-  let interval;
-
-  function showTestimonial(index) {
-    current = index;
-    const t = testimonials[index];
-
-    // Fade out
-    const testimonial = slider.querySelector('.testimonial');
-    testimonial.style.opacity = '0';
-
-    setTimeout(() => {
-      quoteEl.textContent = t.quote;
-      authorEl.textContent = t.author;
-      roleEl.textContent = t.role;
-      if (avatarEl) {
-        avatarEl.textContent = t.initial;
-      }
-      testimonial.style.opacity = '1';
-    }, 300);
-
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === index);
-    });
-  }
-
-  function nextTestimonial() {
-    showTestimonial((current + 1) % testimonials.length);
-  }
-
-  // Dot click
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      clearInterval(interval);
-      showTestimonial(parseInt(dot.dataset.index, 10));
-      interval = setInterval(nextTestimonial, 6000);
-    });
-  });
-
-  // Pause on hover
-  slider.addEventListener('mouseenter', () => clearInterval(interval));
-  slider.addEventListener('mouseleave', () => {
-    interval = setInterval(nextTestimonial, 6000);
-  });
-
-  // Start auto-rotation
-  interval = setInterval(nextTestimonial, 6000);
 }
 
 /* ----- Active Nav Link Highlighting ----- */
